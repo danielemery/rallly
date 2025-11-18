@@ -1,4 +1,3 @@
-import { usePostHog } from "@rallly/posthog/client";
 import { cn } from "@rallly/ui";
 import {
   Card,
@@ -14,10 +13,6 @@ import type React from "react";
 import { useFormContext } from "react-hook-form";
 import { Trans } from "react-i18next";
 
-import { ProBadge } from "@/components/pro-badge";
-import { useBilling } from "@/features/billing/client";
-import { useSpace } from "@/features/space/client";
-
 export type PollSettingsFormData = {
   requireParticipantEmail: boolean;
   hideParticipants: boolean;
@@ -31,19 +26,12 @@ const SettingContent = ({ children }: React.PropsWithChildren) => {
 
 const SettingTitle = ({
   children,
-  pro,
 }: React.PropsWithChildren<{
-  pro?: boolean;
   htmlFor?: string;
 }>) => {
   return (
     <div className="flex min-w-0 items-center gap-x-2.5">
       <div className="font-medium text-sm">{children}</div>
-      {pro ? (
-        <div>
-          <ProBadge />
-        </div>
-      ) : null}
     </div>
   );
 };
@@ -64,11 +52,6 @@ const Setting = ({ children }: React.PropsWithChildren) => {
 
 export const PollSettingsForm = ({ children }: React.PropsWithChildren) => {
   const form = useFormContext<PollSettingsFormData>();
-  const posthog = usePostHog();
-  const { showPayWall } = useBilling();
-
-  const space = useSpace();
-  const isFree = space.data.tier === "hobby";
 
   return (
     <Card>
@@ -119,7 +102,7 @@ export const PollSettingsForm = ({ children }: React.PropsWithChildren) => {
               <Setting>
                 <AtSignIcon className="size-5 shrink-0 translate-y-0.5" />
                 <SettingContent>
-                  <SettingTitle pro>
+                  <SettingTitle>
                     <Trans
                       i18nKey="requireParticipantEmailLabel"
                       defaults="Make email address required for participants"
@@ -129,15 +112,7 @@ export const PollSettingsForm = ({ children }: React.PropsWithChildren) => {
                 <Switch
                   checked={!!field.value}
                   onCheckedChange={(checked) => {
-                    if (isFree) {
-                      showPayWall();
-                      posthog?.capture("trigger paywall", {
-                        setting: "require-participant-email",
-                        from: "poll-settings",
-                      });
-                    } else {
-                      field.onChange(checked);
-                    }
+                    field.onChange(checked);
                   }}
                 />
               </Setting>
@@ -150,7 +125,7 @@ export const PollSettingsForm = ({ children }: React.PropsWithChildren) => {
               <Setting>
                 <EyeIcon className="size-5 shrink-0 translate-y-0.5" />
                 <SettingContent>
-                  <SettingTitle pro>
+                  <SettingTitle>
                     <Trans
                       i18nKey="hideParticipantsLabel"
                       defaults="Hide participants from each other"
@@ -160,15 +135,7 @@ export const PollSettingsForm = ({ children }: React.PropsWithChildren) => {
                 <Switch
                   checked={!!field.value}
                   onCheckedChange={(checked) => {
-                    if (isFree) {
-                      showPayWall();
-                      posthog?.capture("trigger paywall", {
-                        setting: "hide-participants",
-                        from: "poll-settings",
-                      });
-                    } else {
-                      field.onChange(checked);
-                    }
+                    field.onChange(checked);
                   }}
                 />
               </Setting>
@@ -181,7 +148,7 @@ export const PollSettingsForm = ({ children }: React.PropsWithChildren) => {
               <Setting>
                 <VoteIcon className="size-5 shrink-0 translate-y-0.5" />
                 <SettingContent>
-                  <SettingTitle htmlFor={field.name} pro>
+                  <SettingTitle htmlFor={field.name}>
                     <Trans
                       i18nKey="hideScoresLabel"
                       defaults="Hide scores until after a participant has voted"
@@ -192,15 +159,7 @@ export const PollSettingsForm = ({ children }: React.PropsWithChildren) => {
                   id={field.name}
                   checked={!!field.value}
                   onCheckedChange={(checked) => {
-                    if (isFree) {
-                      showPayWall();
-                      posthog?.capture("trigger paywall", {
-                        setting: "hide-scores",
-                        from: "poll-settings",
-                      });
-                    } else {
-                      field.onChange(checked);
-                    }
+                    field.onChange(checked);
                   }}
                 />
               </Setting>

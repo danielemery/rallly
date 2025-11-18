@@ -118,21 +118,7 @@ export const privateProcedure = procedureWithAnalytics.use(
 );
 
 export const proProcedure = privateProcedure.use(async ({ next }) => {
-  if (isSelfHosted) {
-    // Self-hosted instances don't have paid subscriptions
-    return next();
-  }
-
-  const data = await getCurrentUserSpace();
-
-  if (!data || data.space.tier !== "pro") {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message:
-        "You must have an active paid subscription to perform this action",
-    });
-  }
-
+  // All users have access to pro features (paywalls removed)
   return next();
 });
 

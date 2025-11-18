@@ -15,11 +15,10 @@ export type SpaceAbility = PureAbility<[Action, Subject], PrismaQuery>;
 export function defineAbilityForSpace(context?: SpaceAbilityContext) {
   const { can, build } = new AbilityBuilder<SpaceAbility>(createPrismaAbility);
 
-  if (context?.tier === "pro") {
-    can("invite", "Member");
-    can(["finalize", "duplicate"], "Poll");
-    can("update", "AdvancedPollSettings");
-  }
+  // All users have access to all features (paywalls removed)
+  can("invite", "Member");
+  can(["finalize", "duplicate"], "Poll");
+  can("update", "AdvancedPollSettings");
 
   return build();
 }
