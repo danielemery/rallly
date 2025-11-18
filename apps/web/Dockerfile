@@ -29,6 +29,10 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 # Build the project
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
+
+# Set environment variable to make Prisma more resilient to CDN outages
+# This allows Prisma to skip checksum verification if the binaries server is unavailable
+ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
 RUN pnpm db:generate
 
 ARG APP_VERSION
