@@ -58,7 +58,7 @@ export function createSpaceDTO(space: {
     id: space.id,
     name: space.name,
     ownerId: space.ownerId,
-    tier: isSelfHosted ? "pro" : space.tier,
+    tier: "pro", // All users have pro tier (paywalls removed)
     role: fromDBRole(space.role),
     image: space.image ?? undefined,
   } satisfies SpaceDTO;
@@ -101,7 +101,7 @@ export const loadSpaces = cache(async () => {
         id: space.id,
         name: space.name,
         ownerId: space.ownerId,
-        tier: isSelfHosted ? "pro" : space.tier,
+        tier: "pro", // All users have pro tier (paywalls removed)
         role: fromDBRole(role),
         image: space.image ?? undefined,
       } satisfies SpaceDTO;
