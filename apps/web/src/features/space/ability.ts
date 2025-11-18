@@ -12,7 +12,7 @@ export type SpaceAbilityContext = {
 };
 export type SpaceAbility = PureAbility<[Action, Subject], PrismaQuery>;
 
-export function defineAbilityForSpace(context?: SpaceAbilityContext) {
+export function defineAbilityForSpace(_context?: SpaceAbilityContext) {
   const { can, build } = new AbilityBuilder<SpaceAbility>(createPrismaAbility);
 
   // All users have access to all features (paywalls removed)

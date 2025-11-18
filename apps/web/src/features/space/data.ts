@@ -10,7 +10,6 @@ import type { MemberDTO } from "@/features/space/member/types";
 import type { SpaceDTO } from "@/features/space/types";
 import { fromDBRole } from "@/features/space/utils";
 import { defineAbilityFor } from "@/features/user/ability";
-import { isSelfHosted } from "@/utils/constants";
 
 function createMemberDTO(member: {
   id: string;

@@ -5,10 +5,8 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { waitUntil } from "@vercel/functions";
 import { kv } from "@vercel/kv";
 import superjson from "superjson";
-import { getCurrentUserSpace } from "@/auth/data";
 import { AnalyticsService } from "@/features/analytics/service";
 import { isQuickCreateEnabled } from "@/features/quick-create";
-import { isSelfHosted } from "@/utils/constants";
 import type { TRPCContext } from "./context";
 
 const t = initTRPC.context<TRPCContext>().create({
